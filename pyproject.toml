@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mhlabs-mcp-tools"
-version = "0.0.1"
+version = "0.0.4"
 authors = [
   { name="MusaddiqueHussain Jahagirdar", email="musaddiquehussainlabs@gmail.com" },
 ]
@@ -40,6 +40,13 @@ dependencies = [
     "textsearch==0.0.24"
 ]
 
+[project.urls]
+Homepage = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/"
+Documentation = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/"
+Repository = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/"
+Issues = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/issues"
+Changelog = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/blob/main/CHANGELOG.md"
+
 [project.scripts]
 mhlabs-mcp-tools = "mhlabs_mcp_tools.server:main"
 
@@ -47,5 +54,5 @@ mhlabs-mcp-tools = "mhlabs_mcp_tools.server:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-"data.raw" = ["*.json", "*.csv"]
+"mhlabs_mcp_tools.data.raw" = ["*.json", "*.csv"]
 mhlabs_mcp_tools = ["*.json"]

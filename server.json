@@ -1,0 +1,20 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "name": "io.github.MusaddiqueHussainLabs/mhlabs_mcp_tools",
+  "description": "An MCP server that provides text preprocessing, NLP components, and document analysis",
+  "repository": {
+    "url": "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools",
+    "source": "github"
+  },
+  "version": "2.0.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "mhlabs-mcp-tools",
+      "version": "0.0.4",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

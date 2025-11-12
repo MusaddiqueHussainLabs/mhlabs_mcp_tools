@@ -5,7 +5,7 @@ import asyncio
 
 transport = StdioTransport(
     command="python",
-    args=["mhlabs-mcp-tools/server.py"],
+    args=["mhlabs-mcp-tools"],
 )
 client = Client(transport)
 

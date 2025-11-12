@@ -1,3 +1,3 @@
-# 19 December, 2023
+# 12 November, 2025
 
-MusaddiqueHussainLabs NLP is born
+MusaddiqueHussainLabs (mhlabs-mcp-tools) is born

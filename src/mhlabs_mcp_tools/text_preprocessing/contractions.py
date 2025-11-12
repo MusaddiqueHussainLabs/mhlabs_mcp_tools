@@ -4,13 +4,13 @@ from textsearch import TextSearch
 import json
 import pkgutil
 
-json_open = pkgutil.get_data("data", "raw/contractions_dict.json")
+json_open = pkgutil.get_data("mhlabs_mcp_tools", "data/raw/contractions_dict.json")
 contractions_dict = json.loads(json_open.decode("utf-8"))
 
-json_open = pkgutil.get_data("data", "raw/leftovers_dict.json")
+json_open = pkgutil.get_data("mhlabs_mcp_tools", "data/raw/leftovers_dict.json")
 leftovers_dict = json.loads(json_open.decode("utf-8"))
 
-json_open = pkgutil.get_data("data", "raw/slang_dict.json")
+json_open = pkgutil.get_data("mhlabs_mcp_tools", "data/raw/slang_dict.json")
 slang_dict = json.loads(json_open.decode("utf-8"))
 
 for month in [
