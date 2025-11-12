@@ -77,17 +77,29 @@ You can test your tools using the provided MCP client:
 
 ```python
 # examples/example_client.py
-from fastmcp import StdioClient, StdioServerParameters
+import asyncio
+from fastmcp.client.transports import StdioTransport
+from fastmcp import Client
 
-server_params = StdioServerParameters(
+transport = StdioTransport(
     command="python",
     args=["-m", "mhlabs_mcp_tools.server"],
-    //env={"MHLABS_MCP_CATEGORY": "textprep,nlp"}
 )
+client = Client(transport)
 
-client = StdioClient(server_params)
-result = client.call_tool("textprep.remove_email", {"input_text": "Contact me at test@mail.com"})
-print(result)
+async def main():
+    async with client:
+        # Basic server interaction
+        await client.ping()
+        
+        # List available operations
+        tools = await client.list_tools()
+        
+        # Execute operations
+        result = await client.call_tool("textprep.remove_email", {"input_text": "Contact me at test@mail.com"})
+        print(result.structured_content)
+
+asyncio.run(main())
 ```
 
 Run:
