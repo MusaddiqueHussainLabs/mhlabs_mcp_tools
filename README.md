@@ -2,7 +2,7 @@
 
 mcp-name: io.github.MusaddiqueHussainLabs/mhlabs_mcp_tools
 
-```markdown
+
 # 🧠 mhlabs-mcp-tools
 
 `mhlabs-mcp-tools` is a **Modular MCP Tools Server** built using [FastMCP](https://github.com/fastmcp/fastmcp).  
@@ -12,222 +12,360 @@ This project is part of the **MHLabs AI Agentic Ecosystem**, designed to work wi
 
 ---
 
-## 🚀 Key Features
+## Features
 
-- 🧩 **Category-based modular loading** — Load only desired tool categories (e.g., `textprep`, `nlp`, `document`).
-- 🔍 **Automatic tool discovery** using `@mcp.tool` decorators.
-- 📦 **Plug-and-play MCP tools** (standardized schema, metadata, versioning).
-- 🧠 **Compositional tools** — Higher-level tools can invoke other MCP tools (e.g., `textprep.preprocess_text`).
-- ⚙️ **STDIO transport** for integration with MCP-compatible clients.
-- 🧾 **Rich metadata and tagging** for each tool (name, description, tags, version, author).
-- 🧑‍💻 **Developer-friendly structure** to add or extend tools easily.
+- **FastMCP Server**: Pure FastMCP implementation supporting multiple transport protocols
+- **Factory Pattern**: Reusable MCP tools factory for easy service management
+- **Domain-Based Organization**: Services organized by business domains (HR, Tech Support, etc.)
+- **Authentication**: Optional Azure AD authentication support
+- **Multiple Transports**: STDIO, HTTP (Streamable), and SSE transport support
+- **VS Code Integration**: Debug configurations and development settings
+- **Comprehensive Testing**: Unit tests with pytest
+- **Flexible Configuration**: Environment-based configuration management
 
----
+## Architecture
 
-## ⚙️ Installation
+```
+src/backend/v3/mcp_server/
+├── core/                   # Core factory and base classes
+│   ├── __init__.py
+│   └── factory.py         # MCPToolFactory and base classes
+├── services/               # Domain-specific service implementations
+│   ├── __init__.py
+│   ├── hr_service.py      # Human Resources tools
+│   ├── tech_support_service.py # IT/Tech Support tools
+│   └── general_service.py # General purpose tools
+├── utils/                  # Utility functions
+│   ├── __init__.py
+│   ├── date_utils.py      # Date formatting utilities
+│   └── formatters.py      # Response formatting utilities
+├── config/                 # Configuration management
+│   ├── __init__.py
+│   └── settings.py        # Settings and configuration
+├── mcp_server.py          # FastMCP server implementation
+├── requirements.txt       # Python dependencies
+├── uv.lock               # Lock file for dependencies
+├── Dockerfile            # Container configuration
+├── docker-compose.yml    # Development container setup
+└── .vscode/              # VS Code configurations
+    ├── launch.json       # Debug configurations
+    └── settings.json     # Editor settings
+```
+
+## Available Services
+
+Currently the package is organized into three primary modules:
+
+### 1. NLP Components
+
+| Component Type | Description                 |
+|----------------|-----------------------------|
+| tokenize       | Text tokenization           |
+| pos            | Part-of-Speech tagging      |
+| lemma          | Word lemmatization          |
+| morphology     | Study of word forms         |
+| dep            | Dependency parsing          |
+| ner            | Named Entity Recognition    |
+| norm           | Text normalization          |
+
+### 2. Text Preprocessing
+
+This module equips users with an extensive set of text preprocessing tools:
+
+| Function                      | Description                                          |
+|-------------------------------|------------------------------------------------------|
+| to_lower                      | Convert text to lowercase                             |
+| to_upper                      | Convert text to uppercase                             |
+| remove_number                 | Remove numerical characters                           |
+| remove_itemized_bullet_and_numbering | Eliminate itemized/bullet-point numbering |
+| remove_url                    | Remove URLs from text                                 |
+| remove_punctuation            | Remove punctuation marks                              |
+| remove_special_character      | Remove special characters                             |
+| keep_alpha_numeric            | Keep only alphanumeric characters                     |
+| remove_whitespace             | Remove excess whitespace                              |
+| normalize_unicode             | Normalize Unicode characters                          |
+| remove_stopword               | Eliminate common stopwords                            |
+| remove_freqwords              | Remove frequently occurring words                      |
+| remove_rarewords              | Remove rare words                                     |
+| remove_email                  | Remove email addresses                                |
+| remove_phone_number           | Remove phone numbers                                  |
+| remove_ssn                    | Remove Social Security Numbers (SSN)                  |
+| remove_credit_card_number     | Remove credit card numbers                            |
+| remove_emoji                  | Remove emojis                                         |
+| remove_emoticons              | Remove emoticons                                      |
+| convert_emoticons_to_words    | Convert emoticons to words                            |
+| convert_emojis_to_words       | Convert emojis to words                               |
+| remove_html                   | Remove HTML tags                                      |
+| chat_words_conversion         | Convert chat language to standard English              |
+| expand_contraction            | Expand contractions (e.g., "can't" to "cannot")        |
+| tokenize_word                 | Tokenize words                                        |
+| tokenize_sentence             | Tokenize sentences                                    |
+| stem_word                     | Stem words                                            |
+| lemmatize_word                | Lemmatize words                                       |
+| preprocess_text               | Combine multiple preprocessing steps into one function|
+
+## Quick Start
+
+### Development Setup
+
+1. **Clone and Navigate**:
+
+   ```bash
+   cd src/mhlabs_mcp_tools
+   ```
+
+2. **Install Dependencies**:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure Environment**:
+
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Start the Server**:
+
+   ```bash
+   # Default STDIO transport (for local MCP clients)
+   python mcp_server.py
+
+   # HTTP transport (for web-based clients)
+   python mcp_server.py --transport http --port 9000
+
+   # Using FastMCP CLI (recommended)
+   fastmcp run mcp_server.py -t streamable-http --port 9000 -l DEBUG
+
+   # Debug mode with authentication disabled
+   python mcp_server.py --transport http --debug --no-auth
+   ```
+
+### Transport Options
+
+**1. STDIO Transport (default)**
+
+- 🔧 Perfect for: Local tools, command-line integrations, Claude Desktop
+- 🚀 Usage: `python mcp_server.py` or `python mcp_server.py --transport stdio`
+
+**2. HTTP (Streamable) Transport**
+
+- 🌐 Perfect for: Web-based deployments, microservices, remote access
+- 🚀 Usage: `python mcp_server.py --transport http --port 9000`
+- 🌐 URL: `http://127.0.0.1:9000/mcp/`
+
+**3. SSE Transport (deprecated)**
+
+- ⚠️ Legacy support only - use HTTP transport for new projects
+- 🚀 Usage: `python mcp_server.py --transport sse --port 9000`
+
+### FastMCP CLI Usage
 
 ```bash
-# Clone and install locally
-git clone https://github.com/YourOrg/mhlabs-mcp-tools.git
-cd mhlabs-mcp-tools
+# Standard HTTP server
+fastmcp run mcp_server.py -t streamable-http --port 9000 -l DEBUG
 
-# Create environment and install dependencies
-python -m venv .venv
-source .venv/bin/activate
+# With custom host
+fastmcp run mcp_server.py -t streamable-http --host 0.0.0.0 --port 9000 -l DEBUG
 
-pip install -e .
-````
+# STDIO transport (for local clients)
+fastmcp run mcp_server.py -t stdio
 
-Or directly from PyPI (once published):
-
-```bash
-pip install mhlabs-mcp-tools
+# Development mode with MCP Inspector
+fastmcp dev mcp_server.py -t streamable-http --port 9000
 ```
 
----
+### VS Code Development
 
-## 🧭 Quick Start (STDIO MCP Server)
+1. **Open in VS Code**:
 
-Start the MCP server:
+   ```bash
+   code .
+   ```
 
-```bash
-//export MHLABS_MCP_CATEGORY="textprep,nlp"
-python -m mhlabs_mcp_tools.server
+2. **Use Debug Configurations**:
+   - `Debug MCP Server (STDIO)`: Run with STDIO transport
+   - `Debug MCP Server (HTTP)`: Run with HTTP transport
+   - `Debug Tests`: Run the test suite
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file based on `.env.example`:
+
+```env
+# Server Settings
+MCP_HOST=0.0.0.0
+MCP_PORT=9000
+MCP_DEBUG=false
+MCP_SERVER_NAME=MHLABS MCP Server
+
+# Authentication Settings
+MCP_ENABLE_AUTH=true
+AZURE_TENANT_ID=your-tenant-id-here
+AZURE_CLIENT_ID=your-client-id-here
+AZURE_JWKS_URI=https://login.microsoftonline.com/your-tenant-id/discovery/v2.0/keys
+AZURE_ISSUER=https://sts.windows.net/your-tenant-id/
+AZURE_AUDIENCE=api://your-client-id
 ```
 
-The server will:
+### Authentication
 
-* Initialize a shared `FastMCP` instance.
-* Import and register tools from selected categories.
-* Run as a **STDIO-based MCP service** (stdin/stdout communication).
+When `MCP_ENABLE_AUTH=true`, the server expects Azure AD Bearer tokens. Configure your Azure App Registration with the appropriate settings.
 
-### Example Output
+For development, set `MCP_ENABLE_AUTH=false` to disable authentication.
 
-```
-Starting mhlabs-mcp-tools with categories: ['textprep', 'nlp']
-✅ Loaded 24 tools (15 textprep, 9 nlp)
-🚀 Running FastMCP STDIO server...
-```
+## Adding New Services
 
----
+1. **Create Service Class**:
 
-## 🧪 Example Client (Quick Test)
+   ```python
+   from core.factory import MCPToolBase, Domain
 
-You can test your tools using the provided MCP client:
+   class MyService(MCPToolBase):
+       def __init__(self):
+           super().__init__(Domain.MY_DOMAIN)
+
+       def register_tools(self, mcp):
+           @mcp.tool(tags={self.domain.value})
+           async def my_tool(param: str) -> str:
+               # Tool implementation
+               pass
+
+       @property
+       def tool_count(self) -> int:
+           return 1  # Number of tools
+   ```
+
+2. **Register in Server**:
+
+   ```python
+   # In mcp_server.py (gets registered automatically from services/ directory)
+   factory.register_service(MyService())
+   ```
+
+3. **Add Domain** (if new):
+   ```python
+   # In core/factory.py
+   class Domain(Enum):
+       # ... existing domains
+       MY_DOMAIN = "my_domain"
+   ```
+
+## MCP Client Usage
+
+### Python Client
 
 ```python
-# examples/example_client.py
 import asyncio
-from fastmcp.client.transports import StdioTransport
 from fastmcp import Client
 
-transport = StdioTransport(
-    command="python",
-    args=["-m", "mhlabs_mcp_tools.server"],
-)
-client = Client(transport)
+client = Client("http://localhost:9000/mcp")
 
 async def main():
     async with client:
-        # Basic server interaction
-        await client.ping()
-        
-        # List available operations
         tools = await client.list_tools()
+        # tools -> list[mcp.types.Tool]
+        # print(tools)
+        for tool in tools:
+            print(f"Tool: {tool.name}")
         
-        # Execute operations
-        result = await client.call_tool("textprep.remove_email", {"input_text": "Contact me at test@mail.com"})
-        print(result.structured_content)
+        result = await client.call_tool("textprep.expand_contraction", {"input_text": "The must've SSN is 859-98-0987. The employee's phone number is 555-555-5555."})
+        print("Result:", result)
 
 asyncio.run(main())
 ```
 
-Run:
+### Command Line Testing
 
 ```bash
-python examples/example_client.py
+# Test the server is running
+curl http://localhost:9000/mcp/
+
+# With FastMCP CLI for testing
+fastmcp dev mcp_server.py -t streamable-http --port 9000
 ```
 
----
+## Quick Test
 
-## 🧩 Example Tool Definitions
-
-Each tool is declared using the `@mcp.tool` decorator and registered automatically at runtime.
-
-### Example 1 — Basic Tool
-
-```python
-from fastmcp import tool
-from .server import mcp
-import re
-
-@mcp.tool(
-    name="textprep.remove_email",
-    description="Remove email addresses from text.",
-    tags={"textprep", "pii"},
-    meta={"version": "0.1", "author": "mhlabs"}
-)
-def remove_email(input_text: str) -> dict:
-    """Remove email addresses."""
-    cleaned = re.sub(r'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}', '', input_text)
-    return {"succeeded": True, "data": cleaned}
-```
----
-
-## 🧠 Architecture Overview
-
-### 1️⃣ Server Entry (`server.py`)
-
-* Creates a single shared `FastMCP` instance.
-* Loads category modules dynamically based on environment variables.
-* Exposes STDIO transport for LLMs or other MCP clients.
-
-### 2️⃣ Category Registries (`text_prep.registry`, etc.)
-
-* Each category defines its own `registry.py` that imports tool functions.
-* When imported, all decorated `@mcp.tool` functions self-register with the shared MCP instance.
-
-### 3️⃣ Tools
-
-* Lightweight functions with explicit metadata.
-* Always return **dict-based responses** for schema safety.
-* Grouped by domain for clarity.
-
----
-
-## 🔧 Configurable Environment Variables
-
-| Variable              | Description                                     | Example              |
-| --------------------- | ----------------------------------------------- | -------------------- |
-| `MHLABS_MCP_CATEGORY` | Comma-separated list of tool categories to load | `"textprep,nlp"`     |
-| `MHLABS_MCP_NAME`     | Custom server name                              | `"mhlabs-mcp-tools"` |
-| `MHLABS_LOG_LEVEL`    | Logging level                                   | `"DEBUG"`            |
-
----
-
-## 🧰 Adding New Tools
-
-1. Create a submodule folder under `src/mhlabs_mcp_tools/` (e.g., `image_analysis/`).
-2. Add your functions in `functions.py`.
-3. Decorate each function with `@mcp.tool(...)`.
-4. Create a `registry.py` that imports `functions.py`.
-5. Add your module path to `CATEGORY_MODULES` in `server.py`.
-
-Example:
-
-```python
-CATEGORY_MODULES = {
-    "textprep": "mhlabs_mcp_tools.text_prep.registry",
-    "nlp": "mhlabs_mcp_tools.nlp_components.registry",
-    "document": "mhlabs_mcp_tools.document.registry",
-    "image": "mhlabs_mcp_tools.image_analysis.registry",
-}
-```
-
----
-
-## 📜 Error Handling & Schema Rules
-
-* All MCP tools must **return a dict** — never a JSON string.
-* Typical return structure:
-
-  ```python
-  return {"succeeded": True, "data": "..."}
-  ```
-* Avoid returning non-serializable Python objects (e.g., custom classes).
-* Set `arbitrary_types_allowed=True` in Pydantic models if using complex types.
-
----
-
-## 🧩 Integration with A2A Agents (Future)
-
-In future phases, `mhlabs-mcp-tools` will integrate seamlessly with:
-
-* **A2A (Agent-to-Agent) frameworks** through `mhlabs-mcp-agents`
-* **Agentic pipelines** orchestrated via LangGraph or Autogen
-* **Dynamic tool registration** for runtime capability expansion
-
----
-
-## 🧑‍💻 Development
-
-Run tests:
+**Test STDIO Transport:**
 
 ```bash
-pytest -v
+# Start server in STDIO mode
+python mcp_server.py --debug --no-auth
+
+# Test with client_example.py
+python client_example.py
 ```
 
-Linting:
+**Test HTTP Transport:**
 
 ```bash
-ruff check src/
+# Start HTTP server
+python mcp_server.py --transport http --port 9000 --debug --no-auth
+
+# Test with FastMCP client
+python -c "
+from fastmcp import Client
+import asyncio
+async def test():
+    async with Client('http://localhost:9000/mcp') as client:
+        result = await client.call_tool("textprep.expand_contraction", {"input_text": "The must've SSN is 859-98-0987. The employee's phone number is 555-555-5555."})
+        print(result)
+asyncio.run(test())
+"
 ```
 
-Build and publish:
+**Test with FastMCP CLI:**
 
 ```bash
-python -m build
-twine upload dist/*
+# Start with FastMCP CLI
+fastmcp run mcp_server.py -t streamable-http --port 9000 -l DEBUG
+
+# Server will be available at: http://127.0.0.1:9000/mcp/
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Import Errors**: Make sure you're in the correct directory and dependencies are installed
+2. **Authentication Errors**: Check your Azure AD configuration and tokens
+3. **Port Conflicts**: Change the port in configuration if 9000 is already in use
+4. **Missing fastmcp**: Install with `pip install fastmcp`
+
+### Debug Mode
+
+Enable debug mode for detailed logging:
+
+```bash
+python mcp_server.py --debug --no-auth
+```
+
+Or set in environment:
+
+```env
+MCP_DEBUG=true
+```
+
+## Server Arguments
+
+```bash
+usage: mcp_server.py [-h] [--transport {stdio,http,streamable-http,sse}]
+                     [--host HOST] [--port PORT] [--debug] [--no-auth]
+
+MHLABS MCP Server
+
+options:
+  -h, --help            show this help message and exit
+  --transport, -t       Transport protocol (default: stdio)
+  --host HOST           Host to bind to for HTTP transport (default: 127.0.0.1)
+  --port, -p PORT       Port to bind to for HTTP transport (default: 9000)
+  --debug               Enable debug mode
+  --no-auth             Disable authentication
 ```
 
 ---
@@ -240,19 +378,10 @@ MIT License © 2025 [MusaddiqueHussain Labs](https://github.com/MusaddiqueHussai
 
 ## 🤝 Contributing
 
-Pull requests are welcome!
-Please follow our contribution guide and code style conventions.
-
----
-
-## 🪄 Example Use Cases
-
-| Category     | Tool                    | Description                      |
-| ------------ | ----------------------- | -------------------------------- |
-| **textprep** | `remove_email`          | Strip emails from raw text       |
-| **textprep** | `preprocess_text`       | Execute multi-step text cleanup  |
-| **nlp**      | `nlp.predict_component` | Named entity recognition (spaCy) |
-| **document** | `extract_metadata`      | Extract document metadata        |
+1. Follow the existing code structure and patterns
+2. Add tests for new functionality
+3. Update documentation for new features
+4. Use the provided VS Code configurations for development
 
 ---
 
@@ -279,6 +408,4 @@ server_params = StdioServerParameters(
 
 ---
 
-**Developed with ❤️ by [Musaddique Hussain Labs](https://github.com/MusaddiqueHussainLabs)**
-
-```
+**Developed with ❤️ by [MusaddiqueHussain Labs](https://github.com/MusaddiqueHussainLabs)**

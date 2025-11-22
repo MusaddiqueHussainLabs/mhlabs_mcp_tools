@@ -6,12 +6,12 @@
     "url": "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools",
     "source": "github"
   },
-  "version": "2.0.0",
+  "version": "3.0.0",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "mhlabs-mcp-tools",
-      "version": "0.0.4",
+      "version": "0.0.5",
       "transport": {
         "type": "stdio"
       }
