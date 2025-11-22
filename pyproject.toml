@@ -42,7 +42,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/"
-Documentation = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/"
+Documentation = "https://musaddiquehussainlabs.github.io/mhlabs_mcp_tools/"
 Repository = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/"
 Issues = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/issues"
 Changelog = "https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools/blob/main/CHANGELOG.md"
