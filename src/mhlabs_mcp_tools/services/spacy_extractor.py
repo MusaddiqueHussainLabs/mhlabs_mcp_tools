@@ -11,7 +11,7 @@ from nltk.tokenize import BlanklineTokenizer
 
 from mhlabs_mcp_tools.handlers.output_generator import generate_output
 from mhlabs_mcp_tools.core.constants import constants
-from mhlabs_mcp_tools.core.config import Settings
+from mhlabs_mcp_tools.core.config import config as Settings
 
 
 class SpacyExtractor:
