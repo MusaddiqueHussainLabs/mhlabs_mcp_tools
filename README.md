@@ -26,30 +26,67 @@ This project is part of the **MHLabs AI Agentic Ecosystem**, designed to work wi
 ## Architecture
 
 ```
-src/backend/v3/mcp_server/
-├── core/                   # Core factory and base classes
-│   ├── __init__.py
-│   └── factory.py         # MCPToolFactory and base classes
-├── services/               # Domain-specific service implementations
-│   ├── __init__.py
-│   ├── hr_service.py      # Human Resources tools
-│   ├── tech_support_service.py # IT/Tech Support tools
-│   └── general_service.py # General purpose tools
-├── utils/                  # Utility functions
-│   ├── __init__.py
-│   ├── date_utils.py      # Date formatting utilities
-│   └── formatters.py      # Response formatting utilities
-├── config/                 # Configuration management
-│   ├── __init__.py
-│   └── settings.py        # Settings and configuration
-├── mcp_server.py          # FastMCP server implementation
-├── requirements.txt       # Python dependencies
-├── uv.lock               # Lock file for dependencies
-├── Dockerfile            # Container configuration
-├── docker-compose.yml    # Development container setup
-└── .vscode/              # VS Code configurations
-    ├── launch.json       # Debug configurations
-    └── settings.json     # Editor settings
+mhlabs_mcp_tools/
+├── .gitignore
+├── .vscode/
+│   └── settings.json
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── docs/
+│   └── index.md
+├── examples/
+│   ├── example_client.py
+│   └── example_client_http.py
+├── mkdocs.yml
+├── pyproject.toml
+├── requirements.txt
+├── server.json
+└── src/
+    ├── __init__.py
+    ├── main.py
+    └── mhlabs_mcp_tools/
+        ├── __init__.py
+        ├── core/
+        │   ├── __init__.py
+        │   ├── config.py
+        │   ├── constants.py
+        │   ├── factory.py
+        │   └── prompts.py
+        ├── data/
+        │   ├── __init__.py
+        │   ├── external/
+        │   │   └── __init__.py
+        │   ├── interim/
+        │   │   └── __init__.py
+        │   ├── processed/
+        │   │   └── __init__.py
+        │   └── raw/
+        │       ├── __init__.py
+        │       ├── contractions_dict.json
+        │       ├── custom_substitutions.csv
+        │       ├── leftovers_dict.json
+        │       └── slang_dict.json
+        ├── handlers/
+        │   ├── __init__.py
+        │   ├── custom_exceptions.py
+        │   └── output_generator.py
+        ├── mcp_server.py
+        ├── models/
+        │   └── __init__.py
+        ├── nlp_components/
+        │   ├── __init__.py
+        │   └── nlp_model.py
+        ├── services/
+        │   ├── __init__.py
+        │   ├── langchain_framework.py
+        │   └── spacy_extractor.py
+        └── text_preprocessing/
+            ├── __init__.py
+            ├── contractions.py
+            ├── emo_unicode.py
+            ├── slang_text.py
+            └── text_preprocessing.py
 ```
 
 ## Available Services
