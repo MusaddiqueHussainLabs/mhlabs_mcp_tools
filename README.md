@@ -172,6 +172,9 @@ This module equips users with an extensive set of text preprocessing tools:
 
    # HTTP transport (for web-based clients)
    python mcp_server.py --transport http --port 9000
+   or
+   after installed mhlabs-mcp-tools
+   python -m mhlabs_mcp_tools.mcp_server --transport http --port 9000
 
    # Using FastMCP CLI (recommended)
    fastmcp run mcp_server.py -t streamable-http --port 9000 -l DEBUG
