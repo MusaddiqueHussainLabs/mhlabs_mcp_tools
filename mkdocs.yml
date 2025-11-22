@@ -22,14 +22,14 @@
 
 # Project information
 site_name: MusaddiqueHussain LABS
-site_url: https://github.com/MusaddiqueHussainLabs/musaddiquehussainlabs_package/
+site_url: https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools
 site_author: MusaddiqueHussain Jahagirdar
 site_description: >-
-  MusaddiqueHussainLabs: Empowering text analytics with advanced tools for comprehensive Natural Language Processing (NLP) and Language Models (LLMs).
+  mhlabs_mcp_tools: Empowering text analytics with advanced mcp tools for comprehensive Natural Language Processing (NLP) and Language Models (LLMs).
 
 # Repository
 repo_name: musaddiquehussainlabs
-repo_url: https://github.com/MusaddiqueHussainLabs/musaddiquehussainlabs_package
+repo_url: https://github.com/MusaddiqueHussainLabs/mhlabs_mcp_tools
 
 # Copyright
 copyright: Copyright &copy; 2023 - 2023 MusaddiqueHussain LABS
